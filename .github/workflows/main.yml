@@ -13,10 +13,10 @@ on:
       BASE_PROJECT:
         description: 'Choose a base project:'
         required: true
-        default: 'LineageOS 20.0'
+        default: 'LineageOS 18.1'
         type: choice
         options:
-          - 'LineageOS 20.0'
+          - 'LineageOS 18.1'
           - 'LineageOS 21.0'
           - 'ArrowOS 13.1'
           - 'DerpFest 13.0'
@@ -30,19 +30,19 @@ on:
       LOCAL_MANIFEST:
         description: "Personal local manifest [repository or raw]:"
         required: true
-        default: 'https://github.com/sounddrill31/local_manifests'
+        default: 'https://github.com/kelexine/local_manifests'
       LOCAL_MANIFEST_BRANCH:
         description: "Personal local manifest's branch:"
         required: false
-        default: 'lineage-oxygen'
+        default: 'lineage-kelly'
       DEVICE_NAME:
         description: "Device's codename:"
         required: true
-        default: "oxygen"
+        default: "kelly"
       PRODUCT_NAME:
         description: "Product to build:"
         required: true
-        default: "lineage_oxygen"
+        default: "lineage_kelly"
       BUILD_COMMAND:
         description: 'Command to be used for compiling:'
         required: true
@@ -59,7 +59,7 @@ on:
       CLEAN_BUILD:
         description: 'Build with a clean workspace?'
         required: true
-        default: 'no'
+        default: 'true'
         type: choice
         options: 
         - 'yes'
@@ -117,8 +117,8 @@ jobs:
                   "LineageOS 21.0")
                     repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs --depth=1
                   ;;
-                  "LineageOS 20.0")
-                    repo init -u https://github.com/LineageOS/android.git -b lineage-20.0 --git-lfs --depth=1
+                  "LineageOS 18.1")
+                    repo init -u https://github.com/LineageOS/android.git -b lineage-18.1 --git-lfs --depth=1
                   ;;
               esac
              else
@@ -162,8 +162,8 @@ jobs:
             repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs --depth=1
             crave set --projectID 72
           ;;
-          "LineageOS 20.0")
-            repo init -u https://github.com/LineageOS/android.git -b lineage-20.0 --git-lfs --depth=1
+          "LineageOS 18.1")
+            repo init -u https://github.com/LineageOS/android.git -b lineage-18.1 --git-lfs --depth=1
             crave set --projectID 36
           ;;
         esac
@@ -176,7 +176,7 @@ jobs:
            export CLEAN="clean"
         fi
 
-        crave run --no-patch --${CLEAN} "rm -rf .repo/local_manifests/ ${{ github.event.inputs.REMOVALS }} && \
+        crave run --no-patch --${CLEAN} "rm -rf ${PWD}/.repo/local_manifests/ ${{ github.event.inputs.REMOVALS }} && \
         # Clone local_manifests repository
         ${{ github.event.inputs.BUILD_DIFFERENT_ROM }} ; \
         git clone ${{ github.event.inputs.LOCAL_MANIFEST }} --depth 1 -b ${{ github.event.inputs.LOCAL_MANIFEST_BRANCH }} .repo/local_manifests && \
